@@ -8,10 +8,10 @@ function login() {
     return (
         <div className="flex flex-col min-h-screen">
 
-            <div className="flex flex-col lg:flex-row flex-none p-0">
+            <div className="flex flex-col lg:flex-row flex-1 p-0">
 
                 {/* Left Black */}
-                <div className="bg-black w-full lg:w-[65%]   border-r-3 border-[#494D53] p-13">
+                <div className="bg-black w-full  lg:w-[65%] border-r-2 border-[#494D53] p-13">
                     <img src={logo} className="lg:w-19 w-15  mx-auto lg:mx-0"></img>
                     <h1 className="text-white text-[2.55rem] pb-0 ms-2 font-medium text-center p-5 lg:block hidden" style={{ fontFamily: "Helvetica, Arial, sans-serif" }} >See everyday moments from your
                         <span className="text-center text-[2.35rem] font-medium lg:block hidden" style={{ background: "linear-gradient(90deg, #FF4718, #FF5903, #ff0069, #d300c5, #DD00B0)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", }} >
@@ -24,7 +24,7 @@ function login() {
                 </div>
 
                 {/* Right Gray */}
-                <div className="bg-[#1F1F22] w-full lg:w-1/2  pt-14 pb-14 lg:pt-16 lg:pb-16  ">
+                <div className="bg-[#1F1F22] w-full  lg:w-1/2  pt-14 pb-14 lg:pt-16 lg:pb-16  ">
                     <form action="" method="POST" className="p-10 bg-[#1F1F22]">
                         <h3 className="text-[#F2F4F6] font-medium text-lg space-y-4">Log into Instagram</h3><br></br>
 
