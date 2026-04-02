@@ -1,11 +1,12 @@
 import React from "react";
-import logo from "../src/images/logo.png"; 
+import logo from "../src/images/logo.png";
 import reelpic from "../src/images/reelpic.png";
 import fbLogo from "../src/images/fb_logo2.png"
 
 function login() {
 
     return (
+
         <div className="flex flex-col min-h-screen">
 
             <div className="flex flex-col lg:flex-row flex-1 p-0">
@@ -36,7 +37,7 @@ function login() {
                                 type="text"
                                 name="loginId"
                                 placeholder=" "
-                                className="peer w-full p-4 pt-6 bg-transparent border border-[#50545B] rounded-[15px] text-white outline-none focus:border-blue-500 hover:border-white"
+                                className="peer w-full autofill:bg-[#1F1F22] p-4 pt-6 bg-transparent border border-[#50545B] rounded-[15px] text-white outline-none focus:border-blue-500 hover:border-white"
                             />
 
                             <label
@@ -45,7 +46,9 @@ function login() {
                                 peer-placeholder-shown:text-base
                                 peer-focus:top-3
                                 peer-focus:text-sm
-                                peer-focus:text-blue-500"
+                                peer-focus:text-blue-500
+                                peer-not-placeholder-shown:top-4
+                                peer-not-placeholder-shown:text-sm "
                             >
                                 Mobile number, username or email
                             </label>
@@ -55,7 +58,7 @@ function login() {
                         <div className="relative w-full mb-4">
 
                             <input
-                                type="text"
+                                type="password"
                                 name="password"
                                 placeholder=" "
                                 className="peer w-full p-4 pt-6 bg-transparent border border-[#50545B] rounded-[15px] text-white outline-none focus:border-blue-500 hover:border-white"
@@ -66,7 +69,9 @@ function login() {
                                 peer-placeholder-shown:text-base
                                 peer-focus:top-3
                                 peer-focus:text-sm
-                             peer-focus:text-blue-500"
+                             peer-focus:text-blue-500
+                                peer-not-placeholder-shown:top-4
+                                peer-not-placeholder-shown:text-sm"
                             >
                                 Password
                             </label>
