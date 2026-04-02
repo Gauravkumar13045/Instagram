@@ -1,12 +1,18 @@
 import React from "react";
 import Login from "./login.jsx"
+import Dashboard from "./dashboard.jsx"
 
 
-function App(){
+function App() {
 
-return(
-<Login />
-);
+    return (
+        <div>
+            <Login />
+            
+
+        </div>
+
+    );
 
 
 }

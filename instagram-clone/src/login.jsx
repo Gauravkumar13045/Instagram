@@ -1,27 +1,31 @@
 import React from "react";
+import logo from "../src/images/logo.png";
+import reelpic from "../src/images/reelpic.png";
+import fbLogo from "../src/images/fb_logo2.png"
 
 function login() {
 
     return (
+
         <div className="flex flex-col min-h-screen">
 
-            <div className="flex flex-col lg:flex-row flex-none p-0">
+            <div className="flex flex-col lg:flex-row flex-1 p-0">
 
                 {/* Left Black */}
-                <div className="bg-black w-full lg:w-[65%]   border-r-3 border-[#494D53] p-13">
-                    <img src="./src/images/logo.png" className="lg:w-19 w-15  mx-auto lg:mx-0"></img>
+                <div className="bg-black w-full  lg:w-[65%] border-r-2 border-[#494D53] p-13">
+                    <img src={logo} className="lg:w-19 w-15  mx-auto lg:mx-0"></img>
                     <h1 className="text-white text-[2.55rem] pb-0 ms-2 font-medium text-center p-5 lg:block hidden" style={{ fontFamily: "Helvetica, Arial, sans-serif" }} >See everyday moments from your
                         <span className="text-center text-[2.35rem] font-medium lg:block hidden" style={{ background: "linear-gradient(90deg, #FF4718, #FF5903, #ff0069, #d300c5, #DD00B0)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", }} >
                             close friends.
                         </span>
                     </h1>
                     <figure>
-                        <img src="./src/images/reelpic.png" className=" mx-auto lg:block hidden w-full xl:w-4/6 2xl:w-full"></img>
+                        <img src={reelpic} className=" mx-auto lg:block hidden w-full xl:w-4/6 2xl:w-full"></img>
                     </figure>
                 </div>
 
                 {/* Right Gray */}
-                <div className="bg-[#1F1F22] w-full lg:w-1/2  pt-14 pb-14 lg:pt-16 lg:pb-16  ">
+                <div className="bg-[#1F1F22] w-full  lg:w-1/2  pt-14 pb-14 lg:pt-16 lg:pb-16  ">
                     <form action="" method="POST" className="p-10 bg-[#1F1F22]">
                         <h3 className="text-[#F2F4F6] font-medium text-lg space-y-4">Log into Instagram</h3><br></br>
 
@@ -33,7 +37,7 @@ function login() {
                                 type="text"
                                 name="loginId"
                                 placeholder=" "
-                                className="peer w-full p-4 pt-6 bg-transparent border border-[#50545B] rounded-[15px] text-white outline-none focus:border-blue-500 hover:border-white"
+                                className="peer w-full autofill:bg-[#1F1F22] p-4 pt-6 bg-transparent border border-[#50545B] rounded-[15px] text-white outline-none focus:border-blue-500 hover:border-white"
                             />
 
                             <label
@@ -42,7 +46,9 @@ function login() {
                                 peer-placeholder-shown:text-base
                                 peer-focus:top-3
                                 peer-focus:text-sm
-                                peer-focus:text-blue-500"
+                                peer-focus:text-blue-500
+                                peer-not-placeholder-shown:top-4
+                                peer-not-placeholder-shown:text-sm "
                             >
                                 Mobile number, username or email
                             </label>
@@ -52,7 +58,7 @@ function login() {
                         <div className="relative w-full mb-4">
 
                             <input
-                                type="text"
+                                type="password"
                                 name="password"
                                 placeholder=" "
                                 className="peer w-full p-4 pt-6 bg-transparent border border-[#50545B] rounded-[15px] text-white outline-none focus:border-blue-500 hover:border-white"
@@ -63,7 +69,9 @@ function login() {
                                 peer-placeholder-shown:text-base
                                 peer-focus:top-3
                                 peer-focus:text-sm
-                             peer-focus:text-blue-500"
+                             peer-focus:text-blue-500
+                                peer-not-placeholder-shown:top-4
+                                peer-not-placeholder-shown:text-sm"
                             >
                                 Password
                             </label>
@@ -73,7 +81,7 @@ function login() {
 
                         <button className="border border-none p-2.5 w-full rounded-[100px] text-white  font-medium hover:bg-[#363638] cursor-pointer mt-4 hover:text-white">Forgot password?</button>
 
-                        <button type="button" className="border border-[#50545B] p-2.5 w-full rounded-[100px] text-white font-medium hover:bg-[#363638] cursor-pointer mt-15 flex items-center justify-center gap-2"> <img src="./src/images/fb_logo2.png" className="w-6" />Log in with Facebook </button>
+                        <button type="button" className="border border-[#50545B] p-2.5 w-full rounded-[100px] text-white font-medium hover:bg-[#363638] cursor-pointer mt-15 flex items-center justify-center gap-2"> <img src={fbLogo} className="w-6" />Log in with Facebook </button>
 
                         <button className="border border-[#4BA9FE] p-2.5 w-full rounded-[100px] text-[#4BA9FE]  font-medium hover:bg-[#363638] cursor-pointer mt-4 ">Create new account</button>
 
