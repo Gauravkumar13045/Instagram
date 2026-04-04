@@ -10,7 +10,7 @@ function dashboard() {
         <div className="min-h-screen bg-black flex">
 
             {/* LEFT SIDEBAR */}
-            <div className="hidden md:flex w-62.5 flex-col p-4 h-screen fixed space-y-2 pb-6">
+            <div className="hidden md:flex w-62.5 flex-col p-4 h-screen fixed space-y-2 pb-6 "> 
 
                 <img src={logo} className="w-10 cursor-pointer p-2 border-w hover:bg-[#25282D] rounded"></img>
                 <div className=" h-full content-center space-y-0 ">
