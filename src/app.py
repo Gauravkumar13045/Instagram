@@ -13,7 +13,7 @@ def submit():
     password = request.form.get("password")
 
     if username == "Admin123" and password == "qwerty123":
-        return render_template("dashboard", name = username)
+        return render_template("Dashboard", name = username)
     else:
         return "Invalid credentials, try again!"
 
