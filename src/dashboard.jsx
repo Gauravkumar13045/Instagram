@@ -83,7 +83,7 @@ function Dashboard() {
 
     useEffect(() => {
         setTimeout(() => {
-            fetch("../src/json/post.json")
+            fetch("./json/post.json")
                 .then(res => {
                     if (!res.ok) {
                         throw new Error("Failed to fetch posts");
