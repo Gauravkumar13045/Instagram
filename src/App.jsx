@@ -1,14 +1,14 @@
 import React from "react";
-import Login from "./login.jsx"
-import Dashboard from "./dashboard.jsx"
+import Login from "./login.jsx";
+import Dashboard from "./dashboard.jsx";
 
 
 function App() {
 
     return (
         <div>
-            <Login/>
-            {/* <Dashboard/> */}
+            {/* <Login/> */}
+            <Dashboard/>
             
 
         </div>

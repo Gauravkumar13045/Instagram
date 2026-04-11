@@ -38,12 +38,13 @@ const stories = [
 
 function Dashboard() {
 
+    // stories slider
     const [page, setPage] = useState(0);
     const [storiesPerPage, setstoriesPerPage] = useState(5);
 
     useEffect(() => {
         const handlesize = () => {
-            if (window.innerWidth < 768) {
+            if (window.innerWidth < 640) {
                 setstoriesPerPage(3);
             } else {
                 setstoriesPerPage(5);
@@ -56,13 +57,6 @@ function Dashboard() {
 
         return () => window.removeEventListener('resize', handlesize);
     }, []);
-
-
-
-
-
-
-
 
     const start = page * storiesPerPage;
     const end = start + storiesPerPage;
@@ -80,9 +74,40 @@ function Dashboard() {
         }
     };
 
+
+    // posts fetcher
+
+    const [posts, setPosts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, seterror] = useState(null);
+
+    useEffect(() => {
+        setTimeout(() => {
+            fetch("../src/json/post.json")
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error("Failed to fetch posts");
+                    }
+                    return res.json();
+                })
+
+                .then(data => {
+                    setPosts(data.posts || []);
+                    setLoading(false);
+
+                })
+                .catch(err => {
+                    seterror("Failed to load posts. Please try again.")
+                    setLoading(false)
+                });
+        }, 2000);
+
+    }, []);
+
+
     return (
 
-        <div className=" min-h-screen block md:flex  bg-black">
+        <div className=" min-h-screen block md:flex bg-black">
 
 
             <div className="md:hidden items-center justify-between px-6 py-3 bg-black flex space-x-15 ">
@@ -173,13 +198,13 @@ function Dashboard() {
 
 
                 {/* STORIES */}
-                <div className="flex w-full gap-4 p-1 pt-2  overflow-x-auto items-center snap-x snap-mandatory">
+                <div className="flex w-full gap-4 p-1 pt-2  overflow-x-auto items-center  snap-x snap-mandatory">
 
                     {page > 0 && (
 
                         <button
                             onClick={prevSlide}
-                            className="absolute z-10 p-1 rounded-full hidden md:flex scrollbar-hide cursor-pointer "
+                            className="absolute z-10 p-1 rounded-full flex scrollbar-hide cursor-pointer "
                         >
                             <img
                                 src={back}
@@ -213,10 +238,10 @@ function Dashboard() {
 
 
                     {end < stories.length && (
-                        <div className="float-right">
+                        <div className="">
                             <button
                                 onClick={nextSlide}
-                                className="hidden md:flex left-0 absolute float-left z-10 rounded-full cursor-pointer"
+                                className="block  cursor-pointer transition-all"
                             >
                                 <img src={next} alt="next" className="w-7 h-7" />
                             </button>
@@ -237,188 +262,156 @@ function Dashboard() {
                 {/* POSTS */}
                 <div className="flex flex-col gap-6 p-0 md:p-8  pt-5 mx-auto ">
 
-                    <div className="p-5" >
-                        <div className="flex items-center justify-between mb-4">
 
-                            <div className="flex items-center gap-3">
-                                <img src={flower} className="w-10 h-10 rounded-full"></img>
+                    {loading && (
+                        <>
+
+                            {[...Array(3)].map((_, index) => (
+                                <div key={index} className="p-5 animate-pulse">
+
+                                    <div className="flex items-center justify-between mb-4">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-10 h-10 bg-gray-700 rounded-full"></div>
+                                            <div className="space-y-2">
+                                                <div className="h-4 bg-gray-700 rounded w-32"></div>
+                                                <div className="h-3 bg-gray-700 rounded w-20"></div>
+                                            </div>
+                                        </div>
+                                        <div className="h-6 bg-gray-700 rounded w-16"></div>
+                                    </div>
 
 
-                                <div className="inline-flex gap-1">
-                                    <div>
-                                        <a href="" className="text-white font-semibold text-sm">smart_adya__01</a>
-                                        <svg aria-label="Verified" fill="rgb(0, 149, 246)" className="inline-flex ml-1" role="img" viewBox="0 0 40 40" width="12"><title>Verified</title><path d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Zm7.415 11.225 2.254 2.287-11.43 11.5-6.835-6.93 2.244-2.258 4.587 4.581 9.18-9.18Z" fill-rule="evenodd"></path></svg>
-                                        <p className="text-white block text-xs">Original audio</p>
+                                    <div className="bg-gray-700 h-105 rounded-xl mb-4"></div>
+
+
+                                    <div className="flex gap-6 mb-4">
+                                        <div className="h-8 bg-gray-700 rounded w-10"></div>
+                                        <div className="h-8 bg-gray-700 rounded w-10"></div>
+                                        <div className="h-8 bg-gray-700 rounded w-10"></div>
+                                        <div className="h-8 bg-gray-700 rounded w-10 ml-auto"></div>
+                                    </div>
+
+
+                                    <div className="space-y-2">
+                                        <div className="h-4 bg-gray-700 rounded w-3/4"></div>
+                                        <div className="h-4 bg-gray-700 rounded w-1/2"></div>
+                                    </div>
+                                </div>
+                            ))}
+
+                        </>
+                    )}
+
+                    {error && !loading && (
+                        <div className="flex flex-col items-center py-20 text-center px-4">
+                            <div className="w-16 h-16 rounded-full border-2 border-red-500 flex items-center justify-center mb-6">
+                                <span className="text-3xl mb-2">⚠️</span>
+                            </div>
+                            <h3 className="text-white text-2xl font-semibold mb-2">Couldn't load posts</h3>
+                            <p className="text-gray-400 mb-6 max-w-sm">
+                                {error}
+                            </p>
+                            <button
+                                onClick={() => window.location.reload()}
+                                className="px-8 py-3 bg-white text-black font-semibold rounded-xl hover:bg-gray-200 active:scale-95 transition-all"
+                            >
+                                Try Again
+                            </button>
+                        </div>
+                    )}
+
+
+                    {!loading && !error && posts.map((post, index) => (
+                        <div key={index} className="p-5" >
+
+                            <div className="flex items-center justify-between mb-4">
+
+                                <div className="flex items-center gap-3">
+                                    <img src={post.avatar} className="w-10 h-10 rounded-full" alt="{post.username}"></img>
+
+
+                                    <div className="inline-flex gap-1">
+                                        <div>
+                                            <a href="" className="text-white font-semibold text-sm">{post.username}</a>
+                                            {post.isVerified && (
+                                                <svg aria-label="Verified" fill="rgb(0, 149, 246)" className="inline-flex ml-1" role="img" viewBox="0 0 40 40" width="12"><title>Verified</title><path d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Zm7.415 11.225 2.254 2.287-11.43 11.5-6.835-6.93 2.244-2.258 4.587 4.581 9.18-9.18Z" fill-rule="evenodd"></path></svg>
+                                            )}
+
+                                            <p className="text-white block text-xs">Original audio</p>
+
+                                        </div>
+
+                                        <div className="text-gray-400 space-x-1 font-normal">
+                                            <span className="cursor-pointer ml-0.5 text-center text-gray-400">•</span>
+                                            <a className="text-gray-400 text-sm">{post.timeAgo}</a>
+                                        </div>
 
                                     </div>
 
-                                    <div className="text-gray-400 space-x-1 font-normal">
-                                        <span className="cursor-pointer ml-0.5 text-center text-gray-400">•</span>
-                                        <a className="text-gray-400 text-sm">3h</a>
+
+                                </div>
+                                <div className="space-x-3" >
+                                    <a className="text-[#85A1FF] cursor-pointer font-normal hover:underline decoration-1 decoration-[#85A1FF]">Follow</a>
+                                    <span className="text-white cursor-pointer">•••</span>
+
+                                </div>
+
+
+                            </div>
+                            <div className="bg-gray-800 h-100 rounded-xl">
+                                <img
+                                    src={post.postImage}
+                                    className="w-full h-full object-cover"
+                                    alt="post"
+                                />
+                            </div>
+
+                            <div className="block">
+                                <div >
+                                    <div class="likes" className="inline-flex">
+                                        <svg aria-label="Like" className=" text-white hover:transition-transform hover:scale-110  ease-in-out  shrink-0 cursor-pointer w-10 p-2" fill="currentColor" role="img" viewBox="0 0 24 24"><title>Like</title><path d="M16.792 3.904A4.989 4.989 0 0 1 21.5 9.122c0 3.072-2.652 4.959-5.197 7.222-2.512 2.243-3.865 3.469-4.303 3.752-.477-.309-2.143-1.823-4.303-3.752C5.141 14.072 2.5 12.167 2.5 9.122a4.989 4.989 0 0 1 4.708-5.218 4.21 4.21 0 0 1 3.675 1.941c.84 1.175.98 1.763 1.12 1.763s.278-.588 1.11-1.766a4.17 4.17 0 0 1 3.679-1.938m0-2a6.04 6.04 0 0 0-4.797 2.127 6.052 6.052 0 0 0-4.787-2.127A6.985 6.985 0 0 0 .5 9.122c0 3.61 2.55 5.827 5.015 7.97.283.246.569.494.853.747l1.027.918a44.998 44.998 0 0 0 3.518 3.018 2 2 0 0 0 2.174 0 45.263 45.263 0 0 0 3.626-3.115l.922-.824c.293-.26.59-.519.885-.774 2.334-2.025 4.98-4.32 4.98-7.94a6.985 6.985 0 0 0-6.708-7.218Z"></path></svg>
+                                        <a className="text-white font-medium mt-2 cursor-pointer">{post.likes}<span>K</span></a>
                                     </div>
 
+                                    <div class="comment" className="inline-flex ml-1">
+                                        <svg aria-label="Comment" className=" text-white hover:transition-transform hover:scale-110 ease-in-out shrink-0 cursor-pointer w-10 p-2" fill="currentColor" role="img" viewBox="0 0 24 24" width="24"><title>Comment</title><path d="M20.656 17.008a9.993 9.993 0 1 0-3.59 3.615L22 22Z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg>
+                                        <a className="text-white font-medium mt-2 cursor-pointer">{post.comments}<span>K</span></a>
+                                    </div>
+
+                                    <div class="share" className="inline-flex ml-1">
+                                        <svg aria-label="Share" className=" text-white shrink-0 hover:transition-transform hover:scale-110 ease-in-out cursor-pointer w-10 p-2" fill="currentColor" role="img" viewBox="0 0 24 24" ><title>Share</title><path d="M13.973 20.046 21.77 6.928C22.8 5.195 21.55 3 19.535 3H4.466C2.138 3 .984 5.825 2.646 7.456l4.842 4.752 1.723 7.121c.548 2.266 3.571 2.721 4.762.717Z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path><line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="7.488" x2="15.515" y1="12.208" y2="7.641"></line></svg>
+                                    </div>
+
+                                    <div class="save" className="inline-flex float-right">
+                                        <svg aria-label="Save" className=" text-white shrink-0 hover:transition-transform hover:scale-110 ease-in-out cursor-pointer w-10 p-2" fill="currentColor" role="img" viewBox="0 0 24 24"><title>Save</title><polygon fill="none" points="20 21 12 13.44 4 21 4 3 20 3 20 21" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></polygon></svg>
+
+                                    </div>
+
+                                    <div class="caption" className="block">
+                                        <a href="" className="text-white text-sm font-semibold ml-2 ">{post.username}</a>
+
+                                        {post.isVerified && (
+                                            <svg aria-label="Verified" fill="rgb(0, 149, 246)" className="inline-flex ml-1" role="img" viewBox="0 0 40 40" width="12"><title>Verified</title><path d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Zm7.415 11.225 2.254 2.287-11.43 11.5-6.835-6.93 2.244-2.258 4.587 4.581 9.18-9.18Z" fill-rule="evenodd"></path></svg>
+                                        )}
+
+                                        <span className="text-white ml-2">{post.caption}</span>
+                                    </div>
+
+
                                 </div>
 
-
                             </div>
-                            <div className="space-x-3" >
-                                <a className="text-[#85A1FF] cursor-pointer font-normal hover:underline decoration-1 decoration-[#85A1FF]">Follow</a>
-                                <span className="text-white cursor-pointer">•••</span>
 
-                            </div>
 
 
                         </div>
-                        <div className="bg-gray-800 h-100 rounded-xl"></div>
+                    ))}
 
-                        <div className="block">
-                            <div >
-                                <div class="likes" className="inline-flex">
-                                    <svg aria-label="Like" className=" text-white hover:transition-transform hover:scale-110  ease-in-out  shrink-0 cursor-pointer w-10 p-2" fill="currentColor" role="img" viewBox="0 0 24 24"><title>Like</title><path d="M16.792 3.904A4.989 4.989 0 0 1 21.5 9.122c0 3.072-2.652 4.959-5.197 7.222-2.512 2.243-3.865 3.469-4.303 3.752-.477-.309-2.143-1.823-4.303-3.752C5.141 14.072 2.5 12.167 2.5 9.122a4.989 4.989 0 0 1 4.708-5.218 4.21 4.21 0 0 1 3.675 1.941c.84 1.175.98 1.763 1.12 1.763s.278-.588 1.11-1.766a4.17 4.17 0 0 1 3.679-1.938m0-2a6.04 6.04 0 0 0-4.797 2.127 6.052 6.052 0 0 0-4.787-2.127A6.985 6.985 0 0 0 .5 9.122c0 3.61 2.55 5.827 5.015 7.97.283.246.569.494.853.747l1.027.918a44.998 44.998 0 0 0 3.518 3.018 2 2 0 0 0 2.174 0 45.263 45.263 0 0 0 3.626-3.115l.922-.824c.293-.26.59-.519.885-.774 2.334-2.025 4.98-4.32 4.98-7.94a6.985 6.985 0 0 0-6.708-7.218Z"></path></svg>
-                                    <a className="text-white font-medium mt-2 cursor-pointer">61.4<span>K</span></a>
-                                </div>
-
-                                <div class="comment" className="inline-flex ml-1">
-                                    <svg aria-label="Comment" className=" text-white hover:transition-transform hover:scale-110 ease-in-out shrink-0 cursor-pointer w-10 p-2" fill="currentColor" role="img" viewBox="0 0 24 24" width="24"><title>Comment</title><path d="M20.656 17.008a9.993 9.993 0 1 0-3.59 3.615L22 22Z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg>
-                                    <a className="text-white font-medium mt-2 cursor-pointer">20<span>K</span></a>
-                                </div>
-
-                                <div class="share" className="inline-flex ml-1">
-                                    <svg aria-label="Share" className=" text-white shrink-0 hover:transition-transform hover:scale-110 ease-in-out cursor-pointer w-10 p-2" fill="currentColor" role="img" viewBox="0 0 24 24" ><title>Share</title><path d="M13.973 20.046 21.77 6.928C22.8 5.195 21.55 3 19.535 3H4.466C2.138 3 .984 5.825 2.646 7.456l4.842 4.752 1.723 7.121c.548 2.266 3.571 2.721 4.762.717Z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path><line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="7.488" x2="15.515" y1="12.208" y2="7.641"></line></svg>
-                                </div>
-
-                                <div class="save" className="inline-flex float-right">
-                                    <svg aria-label="Save" className=" text-white shrink-0 hover:transition-transform hover:scale-110 ease-in-out cursor-pointer w-10 p-2" fill="currentColor" role="img" viewBox="0 0 24 24"><title>Save</title><polygon fill="none" points="20 21 12 13.44 4 21 4 3 20 3 20 21" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></polygon></svg>
-
-                                </div>
-
-                                <div class="caption" className="block">
-                                    <a href="" className="text-white text-sm font-semibold ml-2 ">smart_adya__01</a>
-                                    <svg aria-label="Verified" fill="rgb(0, 149, 246)" className="inline-flex ml-1" role="img" viewBox="0 0 40 40" width="12"><title>Verified</title><path d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Zm7.415 11.225 2.254 2.287-11.43 11.5-6.835-6.93 2.244-2.258 4.587 4.581 9.18-9.18Z" fill-rule="evenodd"></path></svg>
-                                    <span className="text-white ml-2">This is my caption</span>
-                                </div>
-
-
-                            </div>
-
-                        </div>
-
-                    </div>
 
                     /*------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
 
-                    <div className="p-5" >
-                        <div className="flex items-center justify-between mb-4">
-
-                            <div className="flex items-center gap-3">
-                                <img src={flower} className="w-10 h-10 rounded-full"></img>
 
 
-                                <div className="inline-flex gap-1">
-                                    <div>
-                                        <a href="" className="text-white font-semibold text-sm">adya_5711</a>
-                                        <svg aria-label="Verified" fill="rgb(0, 149, 246)" className="inline-flex ml-1" role="img" viewBox="0 0 40 40" width="12"><title>Verified</title><path d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Zm7.415 11.225 2.254 2.287-11.43 11.5-6.835-6.93 2.244-2.258 4.587 4.581 9.18-9.18Z" fill-rule="evenodd"></path></svg>
-                                        <p className="text-white block text-xs">Original audio</p>
-
-                                    </div>
-
-                                    <div className="text-gray-400 space-x-1 font-normal">
-                                        <span className="cursor-pointer ml-0.5 text-center text-gray-400">•</span>
-                                        <a className="text-gray-400 text-sm">3h</a>
-                                    </div>
-
-                                </div>
-
-
-                            </div>
-                            <div className="space-x-3" >
-                                <a className="text-[#85A1FF] cursor-pointer font-normal hover:underline decoration-1 decoration-[#85A1FF]">Follow</a>
-                                <span className="text-white cursor-pointer">•••</span>
-
-                            </div>
-
-
-                        </div>
-                        <div className="bg-gray-800 h-100 rounded-xl"></div>
-
-                        <div >
-                            <div class="likes" className="inline-flex">
-                                <svg aria-label="Like" className=" text-white shrink-0 cursor-pointer w-10 p-2" fill="currentColor" role="img" viewBox="0 0 24 24"><title>Like</title><path d="M16.792 3.904A4.989 4.989 0 0 1 21.5 9.122c0 3.072-2.652 4.959-5.197 7.222-2.512 2.243-3.865 3.469-4.303 3.752-.477-.309-2.143-1.823-4.303-3.752C5.141 14.072 2.5 12.167 2.5 9.122a4.989 4.989 0 0 1 4.708-5.218 4.21 4.21 0 0 1 3.675 1.941c.84 1.175.98 1.763 1.12 1.763s.278-.588 1.11-1.766a4.17 4.17 0 0 1 3.679-1.938m0-2a6.04 6.04 0 0 0-4.797 2.127 6.052 6.052 0 0 0-4.787-2.127A6.985 6.985 0 0 0 .5 9.122c0 3.61 2.55 5.827 5.015 7.97.283.246.569.494.853.747l1.027.918a44.998 44.998 0 0 0 3.518 3.018 2 2 0 0 0 2.174 0 45.263 45.263 0 0 0 3.626-3.115l.922-.824c.293-.26.59-.519.885-.774 2.334-2.025 4.98-4.32 4.98-7.94a6.985 6.985 0 0 0-6.708-7.218Z"></path></svg>
-                                <a className="text-white font-medium mt-2 cursor-pointer">61.4<span>K</span></a>
-                            </div>
-
-                            <div class="comment" className="inline-flex ml-1">
-                                <svg aria-label="Comment" className=" text-white shrink-0 cursor-pointer w-10 p-2" fill="currentColor" role="img" viewBox="0 0 24 24" width="24"><title>Comment</title><path d="M20.656 17.008a9.993 9.993 0 1 0-3.59 3.615L22 22Z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg>
-                                <a className="text-white font-medium mt-2 cursor-pointer">20<span>K</span></a>
-                            </div>
-
-                            <div class="share" className="inline-flex ml-1">
-                                <svg aria-label="Share" className=" text-white shrink-0 cursor-pointer w-10 p-2" fill="currentColor" role="img" viewBox="0 0 24 24" ><title>Share</title><path d="M13.973 20.046 21.77 6.928C22.8 5.195 21.55 3 19.535 3H4.466C2.138 3 .984 5.825 2.646 7.456l4.842 4.752 1.723 7.121c.548 2.266 3.571 2.721 4.762.717Z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path><line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="7.488" x2="15.515" y1="12.208" y2="7.641"></line></svg>
-                            </div>
-
-                            <div class="share" className="inline-flex float-right">
-                                <svg aria-label="Save" className=" text-white shrink-0 cursor-pointer w-10 p-2" fill="currentColor" role="img" viewBox="0 0 24 24"><title>Save</title><polygon fill="none" points="20 21 12 13.44 4 21 4 3 20 3 20 21" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></polygon></svg>
-
-                            </div>
-                        </div>
-
-                    </div>
-                    <div className="p-5" >
-                        <div className="flex items-center justify-between mb-4">
-
-                            <div className="flex items-center gap-3">
-                                <img src={flower} className="w-10 h-10 rounded-full"></img>
-
-
-                                <div className="inline-flex gap-1">
-                                    <div>
-                                        <a href="" className="text-white font-semibold text-sm">adya_5711</a>
-                                        <svg aria-label="Verified" fill="rgb(0, 149, 246)" className="inline-flex ml-1" role="img" viewBox="0 0 40 40" width="12"><title>Verified</title><path d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Zm7.415 11.225 2.254 2.287-11.43 11.5-6.835-6.93 2.244-2.258 4.587 4.581 9.18-9.18Z" fill-rule="evenodd"></path></svg>
-                                        <p className="text-white block text-xs">Original audio</p>
-
-                                    </div>
-
-                                    <div className="text-gray-400 space-x-1 font-normal">
-                                        <span className="cursor-pointer ml-0.5 text-center text-gray-400">•</span>
-                                        <a className="text-gray-400 text-sm">3h</a>
-                                    </div>
-
-                                </div>
-
-
-                            </div>
-                            <div className="space-x-3" >
-                                <a className="text-[#85A1FF] cursor-pointer font-normal hover:underline decoration-1 decoration-[#85A1FF]">Follow</a>
-                                <span className="text-white cursor-pointer">•••</span>
-
-                            </div>
-
-
-                        </div>
-                        <div className="bg-gray-800 h-100 rounded-xl"></div>
-
-                        <div >
-                            <div class="likes" className="inline-flex">
-                                <svg aria-label="Like" className=" text-white shrink-0 cursor-pointer w-10 p-2" fill="currentColor" role="img" viewBox="0 0 24 24"><title>Like</title><path d="M16.792 3.904A4.989 4.989 0 0 1 21.5 9.122c0 3.072-2.652 4.959-5.197 7.222-2.512 2.243-3.865 3.469-4.303 3.752-.477-.309-2.143-1.823-4.303-3.752C5.141 14.072 2.5 12.167 2.5 9.122a4.989 4.989 0 0 1 4.708-5.218 4.21 4.21 0 0 1 3.675 1.941c.84 1.175.98 1.763 1.12 1.763s.278-.588 1.11-1.766a4.17 4.17 0 0 1 3.679-1.938m0-2a6.04 6.04 0 0 0-4.797 2.127 6.052 6.052 0 0 0-4.787-2.127A6.985 6.985 0 0 0 .5 9.122c0 3.61 2.55 5.827 5.015 7.97.283.246.569.494.853.747l1.027.918a44.998 44.998 0 0 0 3.518 3.018 2 2 0 0 0 2.174 0 45.263 45.263 0 0 0 3.626-3.115l.922-.824c.293-.26.59-.519.885-.774 2.334-2.025 4.98-4.32 4.98-7.94a6.985 6.985 0 0 0-6.708-7.218Z"></path></svg>
-                                <a className="text-white font-medium mt-2 cursor-pointer">61.4<span>K</span></a>
-                            </div>
-
-                            <div class="comment" className="inline-flex ml-1">
-                                <svg aria-label="Comment" className=" text-white shrink-0 cursor-pointer w-10 p-2" fill="currentColor" role="img" viewBox="0 0 24 24" width="24"><title>Comment</title><path d="M20.656 17.008a9.993 9.993 0 1 0-3.59 3.615L22 22Z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path></svg>
-                                <a className="text-white font-medium mt-2 cursor-pointer">20<span>K</span></a>
-                            </div>
-
-                            <div class="share" className="inline-flex ml-1">
-                                <svg aria-label="Share" className=" text-white shrink-0 cursor-pointer w-10 p-2" fill="currentColor" role="img" viewBox="0 0 24 24" ><title>Share</title><path d="M13.973 20.046 21.77 6.928C22.8 5.195 21.55 3 19.535 3H4.466C2.138 3 .984 5.825 2.646 7.456l4.842 4.752 1.723 7.121c.548 2.266 3.571 2.721 4.762.717Z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></path><line fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x1="7.488" x2="15.515" y1="12.208" y2="7.641"></line></svg>
-                            </div>
-
-                            <div class="share" className="inline-flex float-right">
-                                <svg aria-label="Save" className=" text-white shrink-0 cursor-pointer w-10 p-2" fill="currentColor" role="img" viewBox="0 0 24 24"><title>Save</title><polygon fill="none" points="20 21 12 13.44 4 21 4 3 20 3 20 21" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></polygon></svg>
-
-                            </div>
-                        </div>
-
-                    </div>
 
 
 
