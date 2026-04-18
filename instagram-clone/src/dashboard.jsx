@@ -4,7 +4,11 @@ import back from "../src/images/icons/backSlide.png";
 import next from "../src/images/icons/nextSlide.png";
 // import login from "../src/login.jsx";
 import flower from "../src/images/flower.png";
+<<<<<<< HEAD:instagram-clone/src/dashboard.jsx
 import { Link, useNavigate } from "react-router-dom";
+=======
+import { Link } from "react-router-dom";
+>>>>>>> c746a1d935cb62456c8cabb7335b7df5ef6ebb92:src/dashboard.jsx
 
 
 const stories = [
@@ -79,7 +83,11 @@ function Dashboard() {
 
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
+<<<<<<< HEAD:instagram-clone/src/dashboard.jsx
     const [error, setError] = useState(null);
+=======
+    const [error, seterror] = useState(null);
+>>>>>>> c746a1d935cb62456c8cabb7335b7df5ef6ebb92:src/dashboard.jsx
 
     useEffect(() => {
         setTimeout(() => {
@@ -97,7 +105,11 @@ function Dashboard() {
 
                 })
                 .catch(err => {
+<<<<<<< HEAD:instagram-clone/src/dashboard.jsx
                     setError("Failed to load posts. Please try again.")
+=======
+                    seterror("Failed to load posts. Please try again.")
+>>>>>>> c746a1d935cb62456c8cabb7335b7df5ef6ebb92:src/dashboard.jsx
                     setLoading(false)
                 });
         }, 2000);
@@ -141,6 +153,7 @@ function Dashboard() {
         }, 2000);
     }, []);
 
+<<<<<<< HEAD:instagram-clone/src/dashboard.jsx
     // navigation
 // navigation
 const navigate = useNavigate();
@@ -153,6 +166,8 @@ useEffect(() => {
 }, [navigate]);
 
 
+=======
+>>>>>>> c746a1d935cb62456c8cabb7335b7df5ef6ebb92:src/dashboard.jsx
     return (
 
         <div className=" min-h-screen block md:flex bg-black">
@@ -506,6 +521,11 @@ useEffect(() => {
 
 
 
+<<<<<<< HEAD:instagram-clone/src/dashboard.jsx
+=======
+
+
+>>>>>>> c746a1d935cb62456c8cabb7335b7df5ef6ebb92:src/dashboard.jsx
                 {!suggestloading && (
                     <>
                         <div className="flex justify-between items-center w-full p-2" >

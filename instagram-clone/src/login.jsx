@@ -1,9 +1,16 @@
+<<<<<<< HEAD:instagram-clone/src/login.jsx
 import React, { useState, useEffect } from "react";
 import logo from "../src/images/logo.png";
 import reelpic from "../src/images/reelpic.png";
 import fbLogo from "../src/images/fb_logo2.png";
 
 import { useNavigate } from "react-router-dom";
+=======
+import React from "react";
+import logo from "../src/images/logo.png";
+import reelpic from "../src/images/reelpic.png";
+import fbLogo from "../src/images/fb_logo2.png";
+>>>>>>> c746a1d935cb62456c8cabb7335b7df5ef6ebb92:src/login.jsx
 
 function login() {
 
@@ -73,7 +80,10 @@ function login() {
                                 type="text"
                                 name="loginId"
                                 placeholder=" "
+<<<<<<< HEAD:instagram-clone/src/login.jsx
                                 onChange={(e) => setUsername(e.target.value)}
+=======
+>>>>>>> c746a1d935cb62456c8cabb7335b7df5ef6ebb92:src/login.jsx
                                 className="peer w-full autofill:bg-[#1F1F22] p-4 pt-6 bg-transparent border border-[#50545B] rounded-[15px] text-white outline-none focus:border-blue-500 hover:border-white"
                             />
 
